@@ -1,0 +1,13 @@
+.card-footer{
+    height: 5vh;
+}
+
+.icono{
+    display: inline-block;
+    color: turquoise;
+    transition: 1s;
+}
+.icono:hover{
+    cursor: pointer;
+    transform: scale(1.4);
+}
