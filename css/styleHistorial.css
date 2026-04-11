@@ -1,0 +1,101 @@
+:root{
+    --color-primario: #0C5678;
+    --color-secundario: #3CCFCF;
+}
+
+main{
+    padding-top: 7vh !important;
+    margin-top: 5vh !important;
+}
+
+.historial-main{
+    max-width:1000px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.titulo-historial{
+    color:var(--color-primario);
+    font-weight:600;
+}
+
+.historial-item{
+    border-radius:10px;
+    margin-bottom:20px;
+    background:white;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+.historial-summary{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    cursor:pointer;
+    list-style:none;
+}
+
+.historial-summary::-webkit-details-marker{
+    display:none;
+}
+
+.historial-fecha{
+    font-size:0.85rem;
+    color:gray;
+}
+
+.historial-titulo{
+    margin:3px 0;
+    color:var(--color-primario);
+}
+
+.historial-medico{
+    font-size:0.9rem;
+    color:#555;
+}
+
+.historial-acciones{
+    display:flex;
+    gap:12px;
+}
+
+.icono{
+    font-size:20px;
+    text-decoration:none;
+    transition:0.2s;
+}
+
+.icono:hover{
+    transform:scale(1.2);
+}
+
+.historial-detalle{
+    padding:20px;
+    border-top:2px solid var(--color-secundario);
+    background:#f8fdfd;
+}
+
+.historial-detalle h6{
+    color:var(--color-primario);
+    margin-top:10px;
+}
+
+.archivos-extra{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.archivo{
+    padding:6px 12px;
+    border-radius:6px;
+    background:var(--color-secundario);
+    color:white;
+    text-decoration:none;
+    font-size:0.85rem;
+}
+
+.archivo:hover{
+    background:var(--color-primario);
+}

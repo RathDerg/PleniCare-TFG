@@ -1,0 +1,68 @@
+:root{
+    --color-primario: #0C5678;
+    --color-secundario: #3CCFCF;
+}
+
+main{
+    padding-top: 7vh;
+}
+
+.panel-citas{
+    background-color: var(--color-primario);
+    color: white;
+}
+
+.panel-citas .card-header{
+    background-color: var(--color-primario);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.citas-scroll{
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.cita-card{
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cita-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+span{
+    font-weight: bold;
+}
+
+.panel-diagnostico .card-header{
+    background-color: var(--color-primario);
+    color: white;
+}
+
+.diagnostico-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #d5d5d5 !important;
+}
+
+.form-diagnostico{
+    width: 75%;
+}
+
+.btn-buscar{
+    background-color: var(--color-secundario);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-buscar:hover{
+    background-color: #2bb7b7;
+    transform: translateY(-2px);
+    box-shadow: 0.2vh 0.2vh 0.5vh rgba(0,0,0,0.2);
+}

@@ -1,0 +1,29 @@
+p{
+    text-align: justify;
+}
+
+input, textarea, .card{
+    box-shadow: 0.5vh 0.5vh 0.5vh #3CCFCF !important;
+}
+
+.btn-enviar{
+    background-color: #3CCFCF;
+    color: #0C5678;
+    font-weight: 600;
+    border-radius: 25px;
+    padding: 10px 28px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-enviar:hover{
+    background-color: #2bb7b7;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+.btn-enviar:active{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}

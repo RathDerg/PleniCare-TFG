@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,6 +10,7 @@
         <link rel="stylesheet" href="./css/bootstrap-5.3.8-dist/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="./css/styleIndex.css">
+        <link rel="stylesheet" href="./css/styleHeaderFooter.css">
         <link rel="icon" href="./media/simbolo.png">
     </head>
     <body>
@@ -22,9 +26,31 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navLinks">
                         <div class="navbar-nav ms-auto mx-3 justify-content-end">
-                            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                            <a class="nav-link" href="#">Sobre Nosotros</a>
-                            <a class="nav-link" href="#">Iniciar Sesión</a>
+                            <a class="nav-link active" aria-current="page" href="./index.html">Inicio</a>
+                            <a class="nav-link" href="./web/sobreNosotros.php">Sobre Nosotros</a>
+                            <?php
+                                if(isset($_SESSION["name"])): 
+                            ?>
+
+                            <a href="
+                            <?= ($_SESSION["tipo"] == "paciente")? 
+                                    "./web/landingPage_Paciente.php" : "./web/landingPage_Medico.php"
+                            ?>" 
+                            class="nav-link nav-user">
+                                <?= $_SESSION["name"] ?>
+                            </a>
+
+                            <a class="nav-link" href="./php/cerrarSesion.php">Cerrar Sesión</a>
+
+                            <?php 
+                                else: 
+                            ?>
+
+                            <a class="nav-link" href="./web/login.php">Iniciar Sesión</a>
+
+                            <?php 
+                                endif; 
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -84,12 +110,12 @@
             <section class="foot container-fluid">
                 <div class="row mb-3">
                     <article class="foot-nav col-4 text-white d-column align-items-center justify-content-center ps-5 pt-2">
-                        <h4><a href="./index.html" class="texto--enlace mb-2">Inicio</a></h4>
-                        <h4><a href="./web/SobreNosotros.html" class="texto--enlace mb-1">Sobre Nosotros</a></h4>
+                        <h4><a href="./index.php" class="texto--enlace mb-2">Inicio</a></h4>
+                        <h4><a href="./web/SobreNosotros.php" class="texto--enlace mb-1">Sobre Nosotros</a></h4>
                         <ul>
-                            <li><a href="./web/sobreNosotros.html#quienesSomos" class="texto--enlace">Quiénes Somos</a></li>
-                            <li><a href="./web/sobreNosotros.html#nuestraLabor" class="texto--enlace">Quiénes Somos</a></li>
-                            <li><a href="./web/sobreNosotros.html#contacto" class="texto--enlace">Contacto</a></li>
+                            <li><a href="./web/sobreNosotros.php#quienesSomos" class="texto--enlace">Quiénes Somos</a></li>
+                            <li><a href="./web/sobreNosotros.php#nuestraLabor" class="texto--enlace">Quiénes Somos</a></li>
+                            <li><a href="./web/sobreNosotros.php#contacto" class="texto--enlace">Contacto</a></li>
                         </ul>
                     </article>
                     <div class="col-4">

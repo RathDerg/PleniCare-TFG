@@ -1,0 +1,192 @@
+/* - HEADER Y NAV ---------     //      L.122 -> FOOTER   */ 
+.bg-darkBlue {
+    background-color: #0C5678 !important;
+}
+
+.navbar{
+    box-shadow: 0 0.3vh 0.5vh #0C5678;
+}
+
+.navbar-brand{
+    height: 5vh;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    margin: 0 0.8rem;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #3CCFCF;
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 100%;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #3CCFCF !important;
+}
+
+.navbar-nav .nav-link:last-child {
+    border: 1px solid #3CCFCF;
+    border-radius: 20px;
+    padding: 0.4rem 1.1rem;
+    margin-left: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:last-child::after {
+    display: none;
+}
+
+.navbar-nav .nav-link:last-child:hover {
+    background-color: #3CCFCF;
+    color: #0C5678 !important;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.4rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.toggler-line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover .toggler-line {
+    background-color: #3CCFCF;
+}
+
+.nav-user{
+    background:#3CCFCF;
+    color:#0C5678;
+    padding:5px 12px;
+    border-radius:20px;
+    font-weight:500;
+}
+
+
+@media (max-width: 991px) {
+    .navbar-toggler {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .toggler-line {
+        width: 30px;
+        height: 4px;
+        margin: 6px 0;
+    }
+
+    .navbar-collapse {
+        background-color: #0C5678;
+        padding: 1rem 0;
+        margin-top: 0.8rem;
+        border-radius: 12px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.15rem;
+        padding: 0.8rem 1.5rem;
+        margin: 0.2rem 0;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link:last-child {
+        margin: 0.8rem auto 0;
+        width: 85%;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+}
+
+/* - FOOTER -------------------------------------------------------- */
+.footer{
+    background-color: #0C5678;
+    border-top: 1px solid #3CCFCF;
+}
+.foot{
+    border-bottom: 1px solid #3CCFCF;
+}
+.foot_logo-img{
+    width: 75%;
+    cursor:pointer;
+}
+
+.foot-rrss{
+    gap: 2vh;
+}
+
+.foot-rrss>i{
+    transition: 0.3s ease-in-out;
+    font-size: 3vh;
+    color:white;
+}
+.foot-rrss>i:hover{
+    transform: scale(1.1);
+    color:#3CCFCF;
+    cursor: pointer;
+    box-shadow: 0.3vh 0.3vh 0.3vh #0C5678;
+}
+
+.texto--info{
+    color: white;
+    font-weight: bold;
+}
+
+ul{
+    list-style: none;
+}
+.texto--enlace {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.texto--enlace::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #3CCFCF; /* mismo color que navbar */
+    transition: width 0.3s ease;
+}
+
+.texto--enlace:hover::after {
+    width: 100%;
+}
+
+.texto--enlace:hover {
+    color: #3CCFCF;
+}
