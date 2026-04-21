@@ -7,7 +7,7 @@
                     <h4><a href="../index.php" class="texto--enlace mb-2">Inicio</a></h4>
                     <h4><a href="./SobreNosotros.php" class="texto--enlace mb-1">Sobre Nosotros</a></h4>
                     <ul>
-                        <li><a href="./sobreNosotros.php#quienesSomos" class="texto--enlace">Quiénes Somos</a></li>
+                        <li><a href="./sobreNosotros.php" class="texto--enlace">Quiénes Somos</a></li>
                         <li><a href="./sobreNosotros.php#nuestraLabor" class="texto--enlace">Nuestra Labor</a></li>
                         <li><a href="./sobreNosotros.php#contacto" class="texto--enlace">Contacto</a></li>
                     </ul>

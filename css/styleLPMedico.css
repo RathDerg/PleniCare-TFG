@@ -66,3 +66,7 @@ span{
     transform: translateY(-2px);
     box-shadow: 0.2vh 0.2vh 0.5vh rgba(0,0,0,0.2);
 }
+
+.btn-success{
+    background-color: #0C5678 !important;
+}

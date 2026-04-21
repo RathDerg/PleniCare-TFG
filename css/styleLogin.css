@@ -1,0 +1,25 @@
+body {
+    background: linear-gradient(135deg, #0C5678, #3CCFCF);
+}
+
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 1.2rem;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #0C5678;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #09445e;
+}
+
+.input-group-text {
+    background-color: #3CCFCF;
+    color: white;
+    border: none;
+}

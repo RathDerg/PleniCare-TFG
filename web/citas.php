@@ -1,11 +1,9 @@
 <?php
     session_start();
-    $_SESSION["user"]="1";
-    /*
-    if(!isset($_SESSION("loggin"))){
+    if(!isset($_SESSION["login"]) || ($_SESSION["tipo"]!="paciente" && $_SESSION["tipo"]!="medico")){
         header("Location:../index.html");
         exit();
-    }*/
+    }
     include_once("../php/conexionBBDD.php");
     try {
         $conexion = new PDO ($url, $user, $pass);
@@ -28,26 +26,26 @@
     <link rel="stylesheet" href="../css/styleCitas.css">
     <link rel="stylesheet" href="../css/styleHeaderFooter.css">
     <link rel="stylesheet" href="../css/styleSobreNosotros.css">
+    <link rel="icon" href="../media/simbolo.png">
 </head>
 <body>
     <!--------------------------------------------------------------------------------------------------- HEADER -->
-    <?php /* <-- QUITAR UNA VEZ SE HAGA EL LOG IN (ACUÉRDATE JOSE)
-        if($_SESSION("tipo")=="paciente"){
-            include_once("../components/headerPaciente.php");
-        }else if($_SESSION("tipo")=="medico"){
-            include_once("../components/headerMedico.php");
-        }else {
-            include_once("../components/header.php");
+    <?php
+            if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="paciente"){
+                include_once("../components/headerPaciente.php");
+            }else if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+                include_once("../components/headerMedico.php");
             }
-        */
-        include_once("../components/headerPaciente.php"); //<-- QUITAR UNA VEZ SE HAGA EL LOG IN (ACUÉRDATE JOSE)
     ?>
     <main class="container">
         <!--------------------------------------------------------------------------------------- CARDS DE CITAS -->
         <section class="row my-4">
             <?php
+            /* ----------------------------------------------------------------------------- CARDS PARA PACIENTES */
+            if($_SESSION["tipo"]=="paciente"){
                 $sentencia = "SELECT pc.hora as hora, pc.fecha as fecha, pc.tipo as tipo, CONCAT(m.nombre, ' ', m.apellidos) as nombre_completo, m.especialidad as especialidad, m.id_medico as medico
-                                from pedir_cita pc join paciente p on pc.id_paciente = p.id_paciente
+                                from pedir_cita pc 
+                                join paciente p on pc.id_paciente = p.id_paciente
                                 join medico m on pc.id_medico = m.id_medico 
                                 where p.id_paciente = :id
                                 order by fecha asc";
@@ -56,30 +54,84 @@
                 $sql -> setFetchMode(PDO::FETCH_ASSOC);
                 if($sql->execute()){
                     if($sql->rowCount()>0){
-                        $contador=0;
                         while($tupla = $sql -> fetch()){
-                            echo "<article class=\"card col-md-4 col-sm-6 col-12 mb-3 mx-3\" style=\"max-width: 18rem; background-color:rgb(31, 120, 140);\">
-                                    <div class=\"card-header text-center\" style=\"color: white;\"><h3>".$tupla["especialidad"]."</h3></div>
-                                    <div class=\"card-body text-center\">
-                                        <h4 class=\"card-title\">".$tupla["hora"]." - ".$tupla["fecha"]."</h4>
-                                        <p class=\"card-text\">".$tupla["tipo"]."</p>
-                                        <p class=\"card-text medico\">".$tupla["nombre_completo"]."</p>
-                                        <p class=\"card-text especialidad\">".$tupla["especialidad"]."</p>
+                            echo "<div class='col-md-4 col-sm-6 col-12 mb-4'>
+                                <div class='card cita-card h-100'>
+
+                                    <div class='card-header text-center'>
+                                        <h5>".$tupla["especialidad"]."</h5>
                                     </div>
-                                    <div class=\"card-footer position-relative\">
-                                        <i class=\"bi bi-trash3-fill icono position-absolute top-50 end-0 translate-middle-y\" 
-                                    data-fecha=\"".$tupla["fecha"]."\"
-                                    data-hora=\"".$tupla["hora"]."\"
-                                    data-nombre=\"".$tupla["nombre_completo"]."\"
-                                    data-medico=\"".$tupla["medico"]."\"></i>
+
+                                    <div class='card-body text-center'>
+                                        <h3 class='hora'>".$tupla["hora"]."</h3>
+                                        <p class='fecha'>".$tupla["fecha"]."</p>
+                                        <span class='tipo'>".$tupla["tipo"]."</span>
+                                        <p class='medico'>".$tupla["nombre_completo"]."</p>
                                     </div>
-                                </article>";
-                            $contador++;
+
+                                    <div class='card-footer'>
+                                        <i class='bi bi-trash3-fill icono'
+                                            data-rol='paciente'
+                                            data-fecha='".$tupla["fecha"]."'
+                                            data-hora='".$tupla["hora"]."'
+                                            data-nombre='".$tupla["nombre_completo"]."'
+                                            data-medico='".$tupla["medico"]."'>
+                                        </i>
+                                    </div>
+
+                                </div>
+                            </div>";
                         }
                     }else {
                         echo "<h4 class=\"text-center my-4\">No hay citas pendientes.</h4>";
                     }
                 }
+            /* ----------------------------------------------------------------------------- CARDS PARA MEDICOS */
+            } else{
+                $sentencia = "SELECT pc.hora as hora, pc.fecha as fecha, pc.tipo as tipo, CONCAT(p.nombre, ' ', p.apellidos) as nombre_completo, m.especialidad as especialidad, p.id_paciente as paciente
+                                from pedir_cita pc 
+                                join paciente p on pc.id_paciente = p.id_paciente
+                                join medico m on pc.id_medico = m.id_medico 
+                                where m.id_medico = :id
+                                order by fecha asc";
+                $sql = $conexion ->prepare($sentencia);
+                $sql -> bindParam(":id", $_SESSION["user"]);
+                $sql -> setFetchMode(PDO::FETCH_ASSOC);
+                if($sql->execute()){
+                    if($sql->rowCount()>0){
+                        while($tupla = $sql -> fetch()){
+                            echo "<div class='col-md-4 col-sm-6 col-12 mb-4'>
+                                <div class='card cita-card h-100'>
+
+                                    <div class='card-header text-center'>
+                                        <h5>".$tupla["especialidad"]."</h5>
+                                    </div>
+
+                                    <div class='card-body text-center'>
+                                        <h3 class='hora'>".$tupla["hora"]."</h3>
+                                        <p class='fecha'>".$tupla["fecha"]."</p>
+                                        <span class='tipo'>".$tupla["tipo"]."</span>
+                                        <p class='paciente'>".$tupla["nombre_completo"]."</p>
+                                    </div>
+
+                                    <div class='card-footer'>
+                                        <i class='bi bi-trash3-fill icono'
+                                            data-rol='medico'
+                                            data-fecha='".$tupla["fecha"]."'
+                                            data-hora='".$tupla["hora"]."'
+                                            data-nombre='".$tupla["nombre_completo"]."'
+                                            data-paciente='".$tupla["paciente"]."'>
+                                        </i>
+                                    </div>
+
+                                </div>
+                            </div>";
+                        }
+                    }else {
+                        echo "<h4 class=\"text-center my-4\">No hay citas pendientes.</h4>";
+                    }
+                }
+            }
             ?>
         </section>
         <section class="d-flex justify-content-center mb-4">
@@ -161,8 +213,15 @@
                     <h3>¿Está seguro/a de cancelar la cita?</h3>
                     <p id="infoCita" class="border border-warning bg-warning-subtle p-3 mt-3 text-center"></p>
                     <form id="cancelar" method="POST" action="../php/cancelarCita.php">
-                        <input type="hidden" name="paciente" value="<?php echo $_SESSION["user"] ?>">
-                        <input type="hidden" name="medico" id="cancelarMedico" value="">
+                        <?php
+                            if($_SESSION["tipo"]=="paciente"){
+                                echo "<input type='hidden' name='paciente' value='".$_SESSION['user']."'>
+                                <input type='hidden' name='medico' id='cancelarMedico' value=''>";
+                            }else {
+                                echo "<input type='hidden' name='medico' value='".$_SESSION['user']."'>
+                                <input type='hidden' name='paciente' id='cancelarPaciente' value=''>";
+                            }
+                        ?>
                         <input type="hidden" name="fecha" id="cancelarFecha" value="">
                         <input type="hidden" name="hora" id="cancelarHora" value="">
                     </form>

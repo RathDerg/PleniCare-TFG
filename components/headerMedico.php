@@ -17,9 +17,9 @@
                     <div class="navbar-nav ms-auto mx-3 justify-content-end">
                         <a class="nav-link <?= linkActivo('landingPage_Medico.php') ?>" href="./landingPage_Medico.php">Mi Área</a>
                         <a class="nav-link <?= linkActivo('citas.php') ?>" href="./citas.php">Citas</a>
-                        <a class="nav-link" href="#">Diagnosticar</a>
+                        <a class="nav-link" id="btnDiagnosticar" style="cursor:pointer;">Diagnosticar</a>
                         <a class="nav-link <?= linkActivo('tablonAnuncios.php') ?>" href="#">Tablón de Anuncios</a>
-                        <a class="nav-link" href="../index.php">Cerrar Sesión</a>
+                        <a class="nav-link" href="../php/cerrarSesion.php">Cerrar Sesión</a>
                     </div>
                 </div>
             </div>

@@ -1,11 +1,9 @@
 <?php
     session_start();
-    $_SESSION["user"]="1";
-    /*
-    if(!isset($_SESSION("loggin"))){
+    if(!isset($_SESSION["login"])){
         header("Location:../index.html");
         exit();
-    }*/
+    }
     include_once("../php/conexionBBDD.php");
     try {
         $conexion = new PDO ($url, $user, $pass);
@@ -28,80 +26,97 @@
     <link rel="stylesheet" href="../css/styleHistorial.css">
     <link rel="stylesheet" href="../css/styleHeaderFooter.css">
     <link rel="stylesheet" href="../css/styleSobreNosotros.css">
+    <link rel="icon" href="../media/simbolo.png">
 </head>
 <body>
     <!--------------------------------------------------------------------------------------------------- HEADER -->
-    <?php /* <-- QUITAR UNA VEZ SE HAGA EL LOG IN (ACUÉRDATE JOSE)
-        if($_SESSION("tipo")=="paciente"){
+    <?php 
+        if($_SESSION["tipo"]=="paciente"){
             include_once("../components/headerPaciente.php");
-        }else if($_SESSION("tipo")=="medico"){
+        }else if($_SESSION["tipo"]=="medico"){
             include_once("../components/headerMedico.php");
-        }else {
-            include_once("../components/header.php");
-            }
-        */
-        include_once("../components/headerPaciente.php"); //<-- QUITAR UNA VEZ SE HAGA EL LOG IN (ACUÉRDATE JOSE)
+        }
     ?>
     <!----------------------------------------------------------------------------------------------------- MAIN -->
     <main class="container historial-main">
         <h2 class="titulo-historial mb-4">Historial Médico</h2>
-        <details class="historial-item">
-            <summary class="historial-summary">
-                <div class="historial-info">
-                    <span class="historial-fecha">12 Marzo 2026</span>
-                    <h5 class="historial-titulo">Revisión General</h5>
-                    <p class="historial-medico">Dr. Carlos Medina · Medicina General</p>
-                </div>
-                <div class="historial-acciones">
-                    <a href="../historialPDF/consulta12.pdf" target="_blank" class="icono">📄</a>
-                    <a href="../historialPDF/consulta12.pdf" download class="icono">⬇</a>
-                </div>
-            </summary>
+            <?php
+                $sentencia = "SELECT h.id_historial, h.fecha, h.titulo, h.descripcion, h.medicamento,
+                                    m.nombre, m.apellidos, m.especialidad
+                            FROM historial_medico h
+                            JOIN medico m ON h.id_medico = m.id_medico
+                            WHERE h.id_paciente = :id
+                            ORDER BY h.fecha DESC";
 
-            <div class="historial-detalle">
-                <h6>Información de la consulta</h6>
-                <p>
-                    El paciente acudió para una revisión general. No se detectaron anomalías
-                    importantes. Se recomienda mantener hábitos saludables y repetir análisis
-                    dentro de 6 meses.
-                </p>
-                <h6>Medicación prescrita</h6>
-                <ul>
-                    <li>Paracetamol 500mg · 1 cada 8h si dolor</li>
-                    <li>Vitamina D · 1 cápsula diaria</li>
-                </ul>
-                <h6>Archivos adicionales</h6>
-                <div class="archivos-extra">
-                    <a href="../archivos/radiografia1.jpg" target="_blank" class="archivo">Radiografía Torácica</a>
-                    <a href="../archivos/analitica.pdf" target="_blank" class="archivo">Analítica de Sangre</a>
-                </div>
-            </div>
-        </details>
+                $sql = $conexion->prepare($sentencia);
+                $sql->bindParam(":id", $_SESSION["user"]);
+                $sql->setFetchMode(PDO::FETCH_ASSOC);
+                if($sql->execute()){
+                    if($sql->rowCount() > 0){
+                        while($hist = $sql->fetch()){
+                            $fechaFormateada = date("d F Y", strtotime($hist["fecha"]));
+                            echo "
+                            <details class='historial-item'>
+                                <summary class='historial-summary'>
+                                    <div class='historial-info'>
+                                        <span class='historial-fecha'>{$fechaFormateada}</span>
+                                        <h5 class='historial-titulo'>{$hist["titulo"]}</h5>
+                                        <p class='historial-medico'>
+                                            Dr/a. {$hist["nombre"]} {$hist["apellidos"]} · {$hist["especialidad"]}
+                                        </p>
+                                    </div>
 
-        <details class="historial-item">
-            <summary class="historial-summary">
-                <div class="historial-info">
-                    <span class="historial-fecha">20 Febrero 2026</span>
-                    <h5 class="historial-titulo">Consulta Dermatológica</h5>
-                    <p class="historial-medico">Dra. Laura Gómez · Dermatología</p>
-                </div>
-                <div class="historial-acciones">
-                    <a href="../historialPDF/consulta13.pdf" target="_blank" class="icono">📄</a>
-                    <a href="../historialPDF/consulta13.pdf" download class="icono">⬇</a>
-                </div>
-            </summary>
+                                    <div class='historial-acciones'>
+                                        <a href='../php/generarPDF.php?id={$hist["id_historial"]}' target='_blank' class='icono'>📄</a>
+                                        
+                                        <a href='../php/generarPDF.php?id={$hist["id_historial"]}&download=1' target='_blank'  class='icono'>⬇</a>
+                                    </div>
+                                </summary>
 
-            <div class="historial-detalle">
-                <h6>Información de la consulta</h6>
-                <p>
-                    El paciente presenta irritación cutánea leve debido a alergia estacional.
-                </p>
-                <h6>Medicación prescrita</h6>
-                <ul>
-                    <li>Crema antihistamínica · Aplicar 2 veces al día</li>
-                </ul>
-            </div>
-        </details>
+                                <div class='historial-detalle'>
+                                    <h6>Información de la consulta</h6>
+                                    <p>{$hist["descripcion"]}</p>";
+                            if(!is_null($hist["medicamento"])){
+                                    echo "<h6>Medicación prescrita</h6>
+                                          <ul>";
+                                    $medicamentos = explode(",", $hist["medicamento"]);
+                                    foreach($medicamentos as $medicamento){
+                                        echo "<li>- ".trim($medicamento)."</li>";
+                                    }
+                                    echo "</ul>";
+                            }
+                            $sentenciaArchivos = "SELECT archivo, resumen 
+                                                FROM archivo_medico 
+                                                WHERE id_historial = :id_historial";
+
+                            $sqlArchivos = $conexion->prepare($sentenciaArchivos);
+                            $sqlArchivos->bindParam(":id_historial", $hist["id_historial"]);
+                            $sqlArchivos->setFetchMode(PDO::FETCH_ASSOC);
+
+                            if($sqlArchivos->execute() && $sqlArchivos->rowCount() > 0){
+
+                                echo "<h6>Archivos adicionales</h6>
+                                    <div class='archivos-extra'>";
+
+                                while($archivo = $sqlArchivos->fetch()){
+                                    echo "
+                                    <a href='../archives{$archivo["archivo"]}' target='_blank' class='archivo'>
+                                        {$archivo["resumen"]}
+                                    </a>";
+                                }
+                                echo "</div>";
+                            }
+
+                            echo "
+                                </div>
+                            </details>";
+                        }
+
+                    } else {
+                        echo "<p class='text-center'>No hay historial médico disponible.</p>";
+                    }
+                }
+            ?>
     </main>
     <!--------------------------------------------------------------------------------------------------- FOOTER -->
     <?php

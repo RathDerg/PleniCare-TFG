@@ -36,16 +36,20 @@ main{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px;
+    padding:3vh;
     border-radius:10px;
     background:white;
     box-shadow:0 5px 12px rgba(0,0,0,0.08);
+    transition:0.3s ease-in-out;
+}
+.historial-card:hover{
+    box-shadow:0 5px 12px var(--color-secundario);
 }
 
 .historial-icon{
-    width:32px;
-    height:32px;
-    border-radius:50%;
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
     background:var(--color-secundario);
     color:white;
     display:flex;
@@ -59,7 +63,7 @@ main{
 
 .tablon-section{
     height:100vh;
-    padding:25px;
+    padding:5vh;
     border-left:1px solid var(--color-secundario);
 }
 
@@ -96,4 +100,21 @@ main{
 .btn-pleni:hover{
     background:var(--color-secundario);
     color:var(--color-primario);
+}
+
+@media (max-width:991px) {
+    main{
+        padding-top: 10vh;
+    }
+    .tablon-section{
+        padding-top: 10vh;
+    }
+}
+@media (max-width:767px) {
+    main{
+        padding-top: 10vh;
+    }
+    .tablon-section{
+        padding-top: 20vh;
+    }
 }

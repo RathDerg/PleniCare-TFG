@@ -1,40 +1,88 @@
-main{
+main {
     margin-top: 10vh;
 }
-
-.card-footer{
-    height: 5vh;
+.cita-card {
+    max-width: 20rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: none;
+    background-color: #0C5678;
+    color: white;
+    transition: all 0.3s ease;
 }
 
-.card-body{
-    color:white;
+.cita-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.card-text{
+.cita-card .card-header {
+    background-color: #09445e; /* más oscuro */
+    color: #3CCFCF;
+    border: none;
+}
+
+.cita-card .card-body {
+    background-color: transparent;
+    color: white;
+}
+
+.card-body p,
+.card-body .fecha,
+.card-body .medico {
     text-align: center;
+    width: 100%;
 }
 
-.medico{
+.cita-card .card-footer {
+    background-color: #09445e;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+}
+
+.card-title {
+    font-size: 1.8rem;
     font-weight: bold;
-    margin-bottom: 0 !important;
 }
 
-.especialidad{
-    font-style: italic;
-    font-size: 1.75vh;
+.fecha {
+    font-size: 0.9rem;
+    opacity: 0.85;
 }
 
-.icono{
+.tipo {
+    background-color: rgba(255,255,255,0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     display: inline-block;
-    color: turquoise;
-    transition: 1s;
+    margin-bottom: 10px;
 }
-.icono:hover{
+
+.medico, .paciente {
+    font-weight: 600;
+}
+
+.icono {
+    color: #3CCFCF;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.icono:hover {
+    color: #ff4d4d;
+    transform: scale(1.2);
     cursor: pointer;
-    font-size: 2.5vh;
 }
 
 .botonSolicitar{
     background-color: #0C5678;
     color:white;
+    transition: 0.3s ease-in-out;
+}
+.botonSolicitar:hover{
+    background-color: #3CCFCF;
 }

@@ -16,7 +16,7 @@
                     <div class="navbar-nav ms-auto mx-3 justify-content-end">
                         <a class="nav-link" href="../index.php">Inicio</a>
                         <a class="nav-link <?= linkActivo('sobreNosotros.php') ?>" href="./sobreNosotros.php">Sobre Nosotros</a>
-                        <a class="nav-link" href="./landingPage_Paciente.php">Iniciar Sesión</a>
+                        <a class="nav-link" href="../web/login.php">Iniciar Sesión</a>
                     </div>
                 </div>
             </div>

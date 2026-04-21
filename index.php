@@ -113,7 +113,7 @@
                         <h4><a href="./index.php" class="texto--enlace mb-2">Inicio</a></h4>
                         <h4><a href="./web/SobreNosotros.php" class="texto--enlace mb-1">Sobre Nosotros</a></h4>
                         <ul>
-                            <li><a href="./web/sobreNosotros.php#quienesSomos" class="texto--enlace">Quiénes Somos</a></li>
+                            <li><a href="./web/sobreNosotros.php" class="texto--enlace">Quiénes Somos</a></li>
                             <li><a href="./web/sobreNosotros.php#nuestraLabor" class="texto--enlace">Quiénes Somos</a></li>
                             <li><a href="./web/sobreNosotros.php#contacto" class="texto--enlace">Contacto</a></li>
                         </ul>

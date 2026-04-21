@@ -13,9 +13,10 @@
     <body>
         <!----------------------------------------------------------------------------------------  HEADER   -->
         <?php
-            if($_SESSION["tipo"]=="paciente"){
+            session_start();
+            if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="paciente"){
                 include_once("../components/headerPaciente.php");
-            }else if($_SESSION["tipo"]=="medico"){
+            }else if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
                 include_once("../components/headerMedico.php");
             }else {
                 include_once("../components/header.php");

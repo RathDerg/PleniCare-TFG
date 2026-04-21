@@ -17,7 +17,7 @@
                         <a class="nav-link <?= linkActivo('landingPage_Paciente.php') ?>" href="./landingPage_Paciente.php">Mi Área</a>
                         <a class="nav-link <?= linkActivo('citas.php') ?>" href="./citas.php">Citas</a>
                         <a class="nav-link <?= linkActivo('historialMedico.php') ?>" href="./historialMedico.php">Historial Médico</a>
-                        <a class="nav-link" href="../index.php">Cerrar Sesión</a>
+                        <a class="nav-link" href="../php/cerrarSesion.php">Cerrar Sesión</a>
                     </div>
                 </div>
             </div>
