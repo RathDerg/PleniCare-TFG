@@ -55,15 +55,10 @@ document.getElementById("btnDiagnosticar").addEventListener("click", function(){
 });
 
 document.getElementById("buscarPaciente").addEventListener("input", function(){
-
-    /* if(e.target.id === "buscarPaciente"){
-
-        console.log("Esto entra aqui"); */
-
-        let dato = this.value.trim();
+        let paciente = this.value.trim();
         const contenedorResultados = document.getElementById("resultadosBusqueda");
 
-        if(dato.length < 3){
+        if(paciente.length < 3){
             contenedorResultados.innerHTML = "";
             return;
         }
@@ -107,5 +102,4 @@ document.getElementById("buscarPaciente").addEventListener("input", function(){
         .catch(err => {
             console.error("ERROR FETCH:", err);
         });
-    /* } */
 });

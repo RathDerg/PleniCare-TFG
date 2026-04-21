@@ -32,9 +32,9 @@
 <body>
     <!--------------------------------------------------------------------------------------------------- HEADER -->
     <?php 
-        if($_SESSION("tipo")=="paciente"){
+        if($_SESSION["tipo"]=="paciente"){
             include_once("../components/headerPaciente.php");
-        }else if($_SESSION("tipo")=="medico"){
+        }else if($_SESSION["tipo"]=="medico"){
             include_once("../components/headerMedico.php");
         }
     ?>
