@@ -104,6 +104,63 @@
                     </div>
                 </article>
             </section>
+            <?php 
+                if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+            ?>
+                    <section class="modal fade" id="modalHistorial">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <form action="./php/guardarHistorial.php" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-header">
+                                        <h5>Nuevo Historial Médico</h5>
+                                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <!------------------------------------------------------------------ MODO VISUAL -->
+                                        <div id="pacienteMostrado" style="display:none;">
+                                            <label>Paciente</label>
+                                            <input type="text" id="pacienteInput" class="form-control mb-3" readonly>
+                                        </div>
+                                        <!---------------------------------------------------------------- MODO EDITABLE -->
+                                        <div id="pacienteEditable" style="display:none;">
+                                            <label>Paciente (DNI o SIP)</label>
+                                            <input type="text" id="buscarPaciente" class="form-control mb-3">
+                                            <div id="resultadosBusqueda"></div>
+                                        </div>
+                                        <input type="hidden" name="id_paciente" id="idPaciente">
+
+                                        <label>Título</label>
+                                        <input type="text" name="titulo" class="form-control mb-3" required>
+
+                                        <label>Descripción</label>
+                                        <textarea name="descripcion" class="form-control mb-3" required></textarea>
+
+                                        <label>Medicamentos</label>
+                                        <select name="medicamentos[]" class="form-select mb-3" multiple>
+                                            <?php
+                                                $meds = $conexion->query("SELECT codigo_nacional, nombre FROM medicamento");
+                                                while($medicamento = $meds->fetch()){
+                                                    echo "<option value='".$medicamento["nombre"]."'>".$medicamento["codigo_nacional"].
+                                                            " - ".$medicamento["nombre"].
+                                                        "</option>";
+                                                }
+                                            ?>
+                                        </select>
+                                        <label>Archivos</label>
+                                        <input type="file" name="archivos[]" class="form-control" multiple>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button class="btn btn-success" name="btnFormHistorial">Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+            <?php
+                }
+            ?>
         </main>
         <!----------------------------------------------------------------------------------------  FOOTER    -->
         <footer class="p-2 footer">
@@ -145,5 +202,76 @@
         <!---------------------------------------------------------------------------------------- JAVASCRIPT -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+        <?php 
+            if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+        ?>
+            <script>
+                document.getElementById("btnDiagnosticar").addEventListener("click", function(){
+
+                    const modalElement = document.getElementById("modalHistorial");
+                    const modal = new bootstrap.Modal(modalElement);
+
+                    document.getElementById("pacienteMostrado").style.display = "none";
+                    document.getElementById("pacienteEditable").style.display = "block";
+
+                    document.getElementById("busquedaPaciente").value = "";
+                    document.getElementById("idPaciente").value = "";
+
+                    modal.show();
+                });
+
+                document.getElementById("buscarPaciente").addEventListener("input", function(){
+                        let paciente = this.value.trim();
+                        const contenedorResultados = document.getElementById("resultadosBusqueda");
+
+                        if(paciente.length < 3){
+                            contenedorResultados.innerHTML = "";
+                            return;
+                        }
+
+                        fetch("./php/buscarPaciente.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            body: "dato=" + encodeURIComponent(paciente)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+
+                            console.log(data);
+
+                            contenedorResultados.innerHTML = "";
+
+                            if(data.error){
+                                contenedorResultados.innerHTML = 
+                                    `<div class="text-danger p-2">No encontrado</div>`;
+                                return;
+                            }
+
+                            contenedorResultados.innerHTML = `
+                                <div class="resultado-item p-2 border rounded mb-1"
+                                    data-id="${data.id}"
+                                    data-nombre="${data.nombre}">
+                                    ${data.nombre}
+                                </div>
+                            `;
+
+                            document.querySelector(".resultado-item").addEventListener("click", function(){
+                                document.getElementById("buscarPaciente").value = this.dataset.nombre;
+                                document.getElementById("idPaciente").value = this.dataset.id;
+                                contenedorResultados.innerHTML = "";
+
+                            });
+
+                        })
+                        .catch(err => {
+                            console.error("ERROR FETCH:", err);
+                        });
+                });
+            </script>
+        <?php
+            }
+        ?>
     </body>
 </html>

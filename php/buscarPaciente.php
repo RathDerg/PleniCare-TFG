@@ -5,7 +5,7 @@
     header('Content-Type: application/json');
     try{
         $conexion = new PDO($url, $user, $pass);
-
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $dato = $_POST["dato"];
 
         $sentencia = "SELECT id_paciente, nombre, apellidos, dni, sip 
@@ -17,11 +17,11 @@
         $sql->execute();
 
         if($sql->rowCount() > 0){
-            $p = $sql->fetch(PDO::FETCH_ASSOC);
+            $tupla = $sql->fetch(PDO::FETCH_ASSOC);
 
             echo json_encode([
-                "id" => $p["id_paciente"],
-                "nombre" => $p["nombre"]." ".$p["apellidos"]
+                "id" => $tupla["id_paciente"],
+                "nombre" => $tupla["nombre"]." ".$tupla["apellidos"]
             ]);
         } else {
             echo json_encode(["error" => true]);

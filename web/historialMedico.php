@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/styleHistorial.css">
     <link rel="stylesheet" href="../css/styleHeaderFooter.css">
-    <link rel="stylesheet" href="../css/styleSobreNosotros.css">
     <link rel="icon" href="../media/simbolo.png">
 </head>
 <body>

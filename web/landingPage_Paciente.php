@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/styleLPPaciente.css">
     <link rel="stylesheet" href="../css/styleHeaderFooter.css">
-    <link rel="stylesheet" href="../css/styleSobreNosotros.css">
     <link rel="icon" href="../media/simbolo.png">
 </head>
 <body>
@@ -36,6 +35,7 @@
     <!----------------------------------------------------------------------------------------------------- MAIN -->
     <main class="container-fluid paciente-main">
         <div class="row h-100">
+            <!-------------------------------------------------------------------------------------------- CITAS -->
             <div class="col-lg-8 d-flex flex-column">
                 <section class="citas-section d-flex flex-column justify-content-between">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -43,7 +43,7 @@
                         <a href="./citas.php" class="btn btn-pleni">Solicitar Cita</a>
                     </div>
 
-                    <div class="row g-3">
+                    <div class="row g-3 citas">
                         <?php
                             $sentencia = "SELECT pc.fecha, pc.hora, m.nombre, m.apellidos, m.especialidad
                                         FROM pedir_cita pc
@@ -79,7 +79,8 @@
                 </section>
 
                 <div class="separador"></div>
-                
+
+            <!---------------------------------------------------------------------------------------- HISTORIAL -->
                 <section class="historial-section">
                     <h3 class="titulo-seccion mb-3">Historial Médico Reciente</h3>
                     <div class="row g-3">
@@ -133,14 +134,14 @@
                     </div>
                 </section>
             </div>
-
+            <!------------------------------------------------------------------------------------------- TABLÓN -->
             <aside class="col-lg-4 tablon-section">
                 <h3 class="titulo-seccion mb-3">Tablón de Anuncios</h3>
                 <div class="tablon-scroll">
                     
                     <div class="card anuncio-card">
                         <div class="card-header anuncio-header">
-                            <img src="../media/doctor1.jpg" class="doctor-img">
+                            <img src="../media/retratoMedico.jpg" class="doctor-img">
                             <div>
                                 <strong>Dr. Carlos Medina</strong>
                                 <small>Medicina General</small>
@@ -153,7 +154,7 @@
 
                     <div class="card anuncio-card">
                         <div class="card-header anuncio-header">
-                            <img src="../media/doctor2.jpg" class="doctor-img">
+                            <img src="../media/retratoMedica.jpg" class="doctor-img">
                             <div>
                                 <strong>Dra. Laura Gómez</strong>
                                 <small>Dermatología</small>

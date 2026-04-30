@@ -71,7 +71,7 @@
             exit();
         }
         
-        header("Location: ../web/landingPage_Medico.php");
+        header("Location: ../web/landingPage_Medico.php?ok=historial_creado");
         exit();
 
     } else {

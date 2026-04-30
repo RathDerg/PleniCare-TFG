@@ -11,7 +11,7 @@
         <link rel="icon" href="../media/simbolo.png">
     </head>
     <body>
-        <!----------------------------------------------------------------------------------------  HEADER   -->
+        <!--------------------------------------------------------------------------------------------  HEADER   -->
         <?php
             session_start();
             if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="paciente"){
@@ -22,7 +22,7 @@
                 include_once("../components/header.php");
             }
         ?>
-        <!----------------------------------------------------------------------------------------  MAIN     -->
+        <!--------------------------------------------------------------------------------------------  MAIN     -->
         <main class="container my-5">
             <div class="card shadow-lg border-0 p-4" style="background-color:#0C5678; color:white;">
                 <section id="quienesSomos" class="py-4">
@@ -107,17 +107,27 @@
                                         Enviar mensaje
                                     </button>
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 </section>
             </div>
+    <!---------------------------------------------------------------------------------------- MODAL DIAGNOSTICO -->
+        <?php
+            if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+                include_once("../components/modalDiagnostico.php");
+            }
+        ?>
         </main>
-        <!----------------------------------------------------------------------------------------  FOOTER    -->
+        <!-------------------------------------------------------------------------------------------  FOOTER    -->
         <?php @include_once("../components/footer.php"); ?>
-        <!---------------------------------------------------------------------------------------- JAVASCRIPT -->
+        <!------------------------------------------------------------------------------------------- JAVASCRIPT -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+        <?php
+            if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+                echo "<script src='../js/modalDiagnostico.js'></script>";
+            }
+        ?>
     </body>
 </html>

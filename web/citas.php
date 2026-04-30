@@ -5,6 +5,12 @@
         exit();
     }
     include_once("../php/conexionBBDD.php");
+
+    $mensaje = "";
+    if(isset($_GET["ok"]) && $_GET["ok"] == "cita_creada"){
+        $mensaje = "Cita registrada correctamente";
+    }
+
     try {
         $conexion = new PDO ($url, $user, $pass);
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -23,9 +29,9 @@
     <title>Citas - PleniCare</title>
     <link rel="stylesheet" href="../css/bootstrap-5.3.8-dist/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="../css/styleCitas.css">
     <link rel="stylesheet" href="../css/styleHeaderFooter.css">
-    <link rel="stylesheet" href="../css/styleSobreNosotros.css">
     <link rel="icon" href="../media/simbolo.png">
 </head>
 <body>
@@ -38,6 +44,12 @@
             }
     ?>
     <main class="container">
+        <?php if(!empty($mensaje)): ?>
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                <?= $mensaje ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
         <!--------------------------------------------------------------------------------------- CARDS DE CITAS -->
         <section class="row my-4">
             <?php
@@ -111,7 +123,7 @@
                                         <h3 class='hora'>".$tupla["hora"]."</h3>
                                         <p class='fecha'>".$tupla["fecha"]."</p>
                                         <span class='tipo'>".$tupla["tipo"]."</span>
-                                        <p class='paciente'>".$tupla["nombre_completo"]."</p>
+                                        <p class='paciente'>Paciente: ".$tupla["nombre_completo"]."</p>
                                     </div>
 
                                     <div class='card-footer'>
@@ -151,51 +163,22 @@
                     </div>
                     <div class="modal-body">
                         <form class="row g-3 needs-validation" method="POST" action="./formularioCita.php" novalidate>
-                            <div class="col-md-4">
-                                <label for="dia" class="form-label">Día</label>
-                                <select name="dia" required>
-                                    <option value="" disabled selected>---</option>
-                                    <?php
-                                        try{
-                                            $sentencia = "SELECT DISTINCT fecha FROM cita";
-                                            $sql = $conexion -> prepare($sentencia);
-                                            $sql -> setFetchMode(PDO::FETCH_ASSOC);
-                                            if($sql->execute()){
-                                                while($tupla = $sql -> fetch()){
-                                                    echo "<option value=\"".$tupla["fecha"]."\">".$tupla["fecha"]."</option>";
-                                                }
-                                            }
-                                        }catch(PDOException $e){
-                                            echo "Ha ocurrido un problema al realizar la búsqueda en la base de datos, contacte con administrador.<br>".$e->getMessage();
-                                        }
-                                    ?>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Seleccione un día.
-                                </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Día</label>
+                                <input type="text" id="fechaPicker" name="fecha" placeholder="Seleccione una fecha" class="form-control" required>
                             </div>
-                            <div class="col-md-4">
-                                <label for="hora" class="form-label">Hora</label>
-                                <select name="hora" required>
-                                    <option value="" disabled selected>---</option>
-                                    <option value="09:00">09:00</option>
-                                    <option value="09:30">09:30</option>
-                                    <option value="10:00">10:00</option>
-                                    <option value="10:30">10:30</option>
-                                    <option value="11:00">11:00</option>
-                                    <option value="11:30">11:30</option>
-                                    <option value="12:00">12:00</option>
-                                    <option value="12:30">12:30</option>
-                                    <option value="13:00">13:00</option>
-                                    <option value="13:30">13:30</option>
+
+                            <div class="col-md-6" id="hora" style="display:none;">
+                                <label class="form-label">Hora</label>
+                                <select name="hora" id="horaSelect" class="form-select" required>
+                                    <option value="" disabled selected>Selecciona una hora</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Seleccione una hora.
-                                </div>
                             </div>
+
                             <div class="col-12">
-                                <button class="btn btn-primary" name="buscar" type="submit">Buscar cita</button>
+                                <button class="btn btn-primary" name="buscar" type="submit" id="btnCita" disabled>Buscar cita</button>
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -233,14 +216,72 @@
                 </div>
             </div>
         </section>
+    <!---------------------------------------------------------------------------------------- MODAL DIAGNOSTICO -->
+        <?php
+            if($_SESSION["tipo"]=="medico"){
+                include_once("../components/modalDiagnostico.php");
+            }
+        ?>
     </main>
     <!--------------------------------------------------------------------------------------------------- FOOTER -->
     <?php
-        @include_once("../components/footer.php");
+        include_once("../components/footer.php");
     ?>
     <!----------------------------------------------------------------------------------------------- JAVASCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
     <script src="../js/citasJS.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#fechaPicker", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            locale: "es",
+            onChange: function(selectedDates, dateStr) {
+                cargarHoras(dateStr);
+            }
+        });
+
+        function cargarHoras(fecha){
+            fetch("../php/obtenerHoras.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "fecha=" + encodeURIComponent(fecha)
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                const select = document.getElementById("horaSelect");
+                select.innerHTML = "<option disabled selected>Selecciona una hora</option>";
+
+                if(data.length === 0){
+                    select.innerHTML += "<option disabled>No hay horas disponibles</option>";
+                    return;
+                }
+
+                data.forEach(hora => {
+                    select.innerHTML += `<option value="${hora}">${hora}</option>`;
+                });
+
+            })
+            .catch(err => console.error(err));
+        }
+
+        document.getElementById("fechaPicker").addEventListener("change", function(){
+            if(this.value !== ""){
+                document.getElementById("hora").style.display = "block";
+            }
+        });
+        document.getElementById("hora").addEventListener("change",function(){
+            document.getElementById("btnCita").removeAttribute("disabled");
+        })
+    </script>
+    <?php
+        if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+            echo "<script src='../js/modalDiagnostico.js'></script>";
+        }
+    ?>
 </body>
 </html>

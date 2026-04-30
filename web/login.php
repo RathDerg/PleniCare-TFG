@@ -2,6 +2,12 @@
     session_start();
     include_once("../php/conexionBBDD.php");
 
+    if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="medico"){
+        header("Location:./landingPage_Medico.php");
+    }else if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="paciente"){
+        header("Location:./landingPage_Paciente.php");
+    }
+
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $dni = $_POST["dni"];
