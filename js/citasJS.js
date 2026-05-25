@@ -44,7 +44,7 @@ cardCancelar.forEach(function(card){
             const inPaciente = document.getElementById("cancelarPaciente");
             let paciente = card.dataset.nombre;
             let idPaciente = card.dataset.paciente;
-            inPaciente.value = idMedico;
+            inPaciente.value = idPaciente;
             document.getElementById("infoCita").innerHTML = `<h6>${paciente}<hr>${fecha} a las ${hora}</h6>`;
         }
         modal.show();
